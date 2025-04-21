@@ -58,13 +58,41 @@ const Page = () => {
                 avatarSrc="/brand-asset-profile-picture.png"
                 avatarAlt="pingpanda avatar"
                 username="PingPanda"
-                timestamp="12:31PM"
+                timestamp="Today at 12:31PM"
                 badgeText="SignUp"
                 badgeColor="#43b581"
                 title="👤 New user signed up"
                 content={{
                   name: "Olanrewaju Azeez",
                   email: "olazeez@gmail.com"
+                }}
+                />
+                <DiscordMessage 
+                avatarSrc="/brand-asset-profile-picture.png"
+                avatarAlt="pingpanda avatar"
+                username="PingPanda"
+                timestamp="Today at 12:31PM"
+                badgeText="Subscription"
+                badgeColor="#faa61a"
+                title="💰 Payment recieved"
+                content={{
+                  amount: "$49.00",
+                  name: "Olanrewaju Azeez",
+                  email: "olazeez@gmail.com",
+                  plan: "PRO"
+                }}
+                />
+                <DiscordMessage 
+                avatarSrc="/brand-asset-profile-picture.png"
+                avatarAlt="pingpanda avatar"
+                username="PingPanda"
+                timestamp="Today at 3:31PM"
+                badgeText="Milestone"
+                badgeColor="#5865f2"
+                title="🚀 Revenue Milestone Achieved"
+                content={{
+                  recurringRevenue: "$9.00 USD",
+                  growth: "+8.2%"
                 }}
                 />
               </AnimatedList>
@@ -74,7 +102,33 @@ const Page = () => {
       </div>
 
   </section>
-  <section></section>
+  <section className="relative bg-brand-25 py-4 sm:py-32">
+                <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap:20">
+                  <div>
+                  <h2 className="text-center text-base/7 font-semibold trxt-brand-600">
+                    Inruitive Monitoring
+                  </h2>
+                  <Heading>Stay ahead with real-time insights</Heading>
+                  </div>
+
+                  <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2">
+                    {/* first bento grid element */}
+                    <div className="relative lg:row-span-2">
+                    <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem] "/>
+                    <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1)] lg:rounded-l-[calc(2rem+1px)]">
+                      <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10 ">
+                        <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                          Real-time notifications
+                        </p>
+                        <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                          Get notified about critical events the moment they happen, no matter if you are 
+                        </p>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </MaxWidthWrapper>
+  </section>
   <section></section>
   </>)
 }
