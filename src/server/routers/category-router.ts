@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { router } from "../__internals/router";
 import { privateProcedure } from "../procedures";
 import {startOfMonth} from "date-fns";
+import { z } from "zod";
 
 // export const dynamic = "force-dynamic"
 
@@ -19,7 +20,7 @@ export const categoryRouter = router({
             }, orderBy: {updatedAt: "desc"}
         })
 
-        const categoriesWithcounts = await Promise.all([
+        const categoriesWithcounts = await Promise.all(
             categories.map(async(category) => {
                 const now = new Date()
                 const firstDayOfMonth = startOfMonth(now)
@@ -57,7 +58,19 @@ export const categoryRouter = router({
                     lastPing: lastPing?.createdAt || null,
                 }
             })
-        ])
-        return c.json({})
-    })
+        )
+        return c.superjson({categories: categoriesWithcounts})
+    }),
+
+    deleteCategory: privateProcedure
+    .input(z.object({name: z.string()}))
+    .mutation(async({c, input, ctx}) => {
+        const {name} = input
+
+        await db.eventCategory.delete({
+            where: {name_userId: {name, userId: ctx.user.id}}
+        })
+
+        return c.json({success: true})
+    }),
 })

@@ -1,7 +1,10 @@
+
+
 import { DashboardPage } from "@/components/dashboard-page";
 import { db } from "@/db";
 import { currentUser } from "@clerk/nextjs/server"
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
+import { DashboardPageContent } from "./dashboard-page-content";
 
 interface PageProps {
     searchParams: {
@@ -14,7 +17,7 @@ const Page =  async({searchParams}: PageProps) => {
 
     if(!auth){
         redirect("/sign-in")
-
+    }
         const user = await db.user.findUnique({
             where: {externalId: auth?.id},
         })
@@ -28,10 +31,14 @@ const Page =  async({searchParams}: PageProps) => {
         if(intent === "upgrade") {
             // const session = await createCheck
         }
-    }
+    
     return(
-        <DashboardPage title="Dashborard">dashboard</DashboardPage>
+        <>
+        <DashboardPage title="Dashboard">
+            <DashboardPageContent/>
+        </DashboardPage>
+        </>
     )
 }
 
-export default DashboardPage
+export default Page
