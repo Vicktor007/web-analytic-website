@@ -9,6 +9,7 @@ import Link from "next/link"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { useState } from "react"
 import { Modal } from "@/components/ui/modal"
+import { DashboardEmptyState } from "./dashboard-empty-state"
 
 export const DashboardPageContent = () => {
 
@@ -44,7 +45,7 @@ export const DashboardPageContent = () => {
         )
       }
         if(!categories || categories?.length === 0) {
-            return <div>empty state</div>
+            return <DashboardEmptyState/>
         }
 
         return(

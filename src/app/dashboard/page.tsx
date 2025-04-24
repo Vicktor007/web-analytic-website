@@ -37,13 +37,15 @@ const Page =  async({searchParams}: PageProps) => {
     
     return(
         <>
-        <DashboardPage title="Dashboard" cta={
+        <DashboardPage  cta={
             <CreateEventCategoryModal>
-                <Button className="w-fit">
+                <Button className=" w-full sm:w-fit">
                    <PlusIcon className="size-4 mr-2"/> Add Category
                 </Button>
             </CreateEventCategoryModal>
-        }>
+        }
+        title="Dashboard"
+        >
             <DashboardPageContent/>
         </DashboardPage>
         </>
