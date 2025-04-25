@@ -3,7 +3,7 @@ import { Card } from "@/components/card"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import SyntaxHighlighter from "react-syntax-highlighter"
+import {Prism as SyntaxHighlighter} from "react-syntax-highlighter"
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 export const EmptyCategoryState = ({categoryName,}: {categoryName: string}) => {
