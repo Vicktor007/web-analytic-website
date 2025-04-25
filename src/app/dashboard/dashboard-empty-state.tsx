@@ -24,7 +24,7 @@ export const DashboardEmptyState = () => {
             </div>
             <h1 className="mt-2 text-xl/8 font-medium traacking-tight text-gray-900">No event category yet</h1>
             <p className="text-sm/6 text-gray-600 max=w-prose mt-2 mb-8">
-            Start tracking events by creating your firsr category.
+            Start tracking events by creating your first category.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Button

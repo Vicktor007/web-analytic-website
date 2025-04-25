@@ -6,6 +6,7 @@ import { z } from "zod";
 import { CATEGORY_NAME_VALIDATOR } from "@/lib/validators/category-validator";
 import { color } from "motion/react";
 import { parseColor } from "@/lib/utils";
+import { HTTPException } from "hono/http-exception";
 
 // export const dynamic = "force-dynamic"
 
@@ -120,5 +121,33 @@ export const categoryRouter = router({
             })
             return c.json({success: true, count: categories.count})
         }
-    )
+    ),
+
+    pollCategory: privateProcedure
+    .input(z.object({name: CATEGORY_NAME_VALIDATOR}))
+    .query(async({c, ctx, input}) => {
+        const {name} = input
+
+        const category = await db.eventCategory.findUnique({
+            where: {
+                name_userId: {name, userId: ctx.user.id}
+            },
+            include:{
+                _count: {
+                    select: {
+                        events: true,
+                    },
+                },
+            },
+        })
+        if(!category){
+            throw new HTTPException(404, {
+                message: `Category "${name}" not found`,
+            })
+        }
+
+        const hasEvents = category._count.events > 0
+
+        return c.json({hasEvents})
+    })
 })
