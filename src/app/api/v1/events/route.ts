@@ -102,12 +102,104 @@ export const POST = async(req: NextRequest) => {
 }
    
 
-   const validationResult = REQUEST_VALIDATOR.parse(requestData)
 
 
-    } catch {
-        
-    } 
+    const validationResult = REQUEST_VALIDATOR.parse(requestData)
+
+    const category = user.EventCategories.find(
+      (cat) => cat.name === validationResult.category
+    )
+
+    if (!category) {
+      return NextResponse.json(
+        {
+          message: `You dont have a category named "${validationResult.category}"`,
+        },
+        { status: 404 }
+      )
+    }
+
+    const eventData = {
+      title: `${category.emoji || "🔔"} ${
+        category.name.charAt(0).toUpperCase() + category.name.slice(1)
+      }`,
+      description:
+        validationResult.description ||
+        `A new ${category.name} event has occurred!`,
+      color: category.color,
+      timestamp: new Date().toISOString(),
+      fields: Object.entries(validationResult.fields || {}).map(
+        ([key, value]) => {
+          return {
+            name: key,
+            value: String(value),
+            inline: true,
+          }
+        }
+      ),
+    }
+
+    const event = await db.event.create({
+      data: {
+        name: category.name,
+        formattedMessage: `${eventData.title}\n\n${eventData.description}`,
+        userId: user.id,
+        fields: validationResult.fields || {},
+        eventCategoryId: category.id,
+      },
+    })
+
+    try {
+      await discord.sendEmbed(dmChannel.id, eventData)
+
+      await db.event.update({
+        where: { id: event.id },
+        data: { deliveryStatus: "DELIVERED" },
+      })
+
+      await db.quota.upsert({
+        where: { userId: user.id, month: currentMonth, year: currentYear },
+        update: { count: { increment: 1 } },
+        create: {
+          userId: user.id,
+          month: currentMonth,
+          year: currentYear,
+          count: 1,
+        },
+      })
+    } catch (err) {
+      await db.event.update({
+        where: { id: event.id },
+        data: { deliveryStatus: "FAILED" },
+      })
+
+      console.log(err)
+
+      return NextResponse.json(
+        {
+          message: "Error processing event",
+          eventId: event.id,
+        },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json({
+      message: "Event processed successfully",
+      eventId: event.id,
+    })
+  } catch (err) {
+    console.error(err)
+
+    if (err instanceof z.ZodError) {
+      return NextResponse.json({ message: err.message }, { status: 422 })
+    }
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    )
+  }
 
     
 }
