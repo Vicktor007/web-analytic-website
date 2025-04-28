@@ -9,8 +9,11 @@ import Image from "next/image"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Icons } from "@/components/icons"
+import { currentUser } from "@clerk/nextjs/server"
 
-const Page = () => {
+const Page = async () => {
+
+   const user = await currentUser();
 
   const codeSnippet = `await fetch("http://localhost:3000/api/v1/events", {
   method: "POST",
@@ -60,11 +63,13 @@ const Page = () => {
               {item}</li>
           ))}
         </ul>
-        <div className="w-full max-w-80">
+        {
+          !user && <div className="w-full max-w-80">
           <ShinyButton href="/sign-up" className="
           relative z-10 h-14 w-full text-base shadow-lg transition-shadow duration-300 hover:shadow-xl
           ">Start for free Today</ShinyButton>
         </div>
+        }
       </div>
     </MaxWidthWrapper>
   </section>
@@ -388,12 +393,12 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <ShinyButton
+          {!user && <ShinyButton
             href="/sign-up"
             className="relative z-10 h-14 w-full max-w-xs text-base shadow-lg transition-shadow duration-300 hover:shadow-xl"
           >
             Start For Free Today
-          </ShinyButton>
+          </ShinyButton>}
     </MaxWidthWrapper>
   </section>
   </>)

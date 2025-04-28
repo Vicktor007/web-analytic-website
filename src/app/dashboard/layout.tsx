@@ -98,6 +98,11 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
 const Layout = ({ children }: PropsWithChildren) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
+  const onCloseHandler = () => {
+    setIsDrawerOpen(false);
+  };
+  
+
   return (
     <div className="relative h-screen flex flex-col md:flex-row bg-white overflow-hidden">
       {/* sidebar for desktop */}
@@ -108,9 +113,9 @@ const Layout = ({ children }: PropsWithChildren) => {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* mobile header */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200">
-          <p className="text-lg/7 font-semibold text-brand-900">
+          <Link href="/" className="text-lg/7 font-semibold text-brand-900">
             Ping<span className="text-brand-700">Panda</span>
-          </p>
+          </Link>
           <button
             onClick={() => setIsDrawerOpen(true)}
             className="text-gray-500 hover:text-gray-600"
@@ -134,9 +139,9 @@ const Layout = ({ children }: PropsWithChildren) => {
           setShowModal={setIsDrawerOpen}
         >
           <div className="flex justify-between items-center mb-4">
-            <p className="text-lg/7 font-semibold text-brand-900">
+            <Link href="/" className="text-lg/7 font-semibold text-brand-900">
               Ping<span className="text-brand-700">Panda</span>
-            </p>
+            </Link>
             <button
               aria-label="Close modal"
               onClick={() => setIsDrawerOpen(false)}
@@ -145,7 +150,7 @@ const Layout = ({ children }: PropsWithChildren) => {
             </button>
           </div>
 
-          <Sidebar />
+          <Sidebar onClose={onCloseHandler} />
         </Modal>
       </div>
     </div>
