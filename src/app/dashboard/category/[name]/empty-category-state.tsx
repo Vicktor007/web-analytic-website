@@ -8,6 +8,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 export const EmptyCategoryState = ({categoryName,}: {categoryName: string}) => {
     const router = useRouter()
+    const next_url = process.env.NEXT_PUBLIC_URL;
 
     const {data} = useQuery({
         queryKey: ["category", categoryName, "hasEvents"],
@@ -31,7 +32,7 @@ export const EmptyCategoryState = ({categoryName,}: {categoryName: string}) => {
         if(hasEvents) router.refresh()
     }, [hasEvents, router])
 
-    const codeSnippet = `await fetch('http://localhost:3000/api/events', {
+    const codeSnippet = `await fetch('${next_url}/api/events', {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer YOUR_API_KEY'
