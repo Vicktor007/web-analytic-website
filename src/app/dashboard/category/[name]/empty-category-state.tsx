@@ -8,7 +8,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 export const EmptyCategoryState = ({categoryName,}: {categoryName: string}) => {
     const router = useRouter()
-    const next_url = process.env.NEXT_PUBLIC_URL;
+    const next_url = process.env.NEXT_PUBLIC_APP_URL;
 
     const {data} = useQuery({
         queryKey: ["category", categoryName, "hasEvents"],
