@@ -4,7 +4,6 @@ import { privateProcedure } from "../procedures";
 import {startOfDay, startOfMonth, startOfWeek} from "date-fns";
 import { z } from "zod";
 import { CATEGORY_NAME_VALIDATOR } from "@/lib/validators/category-validator";
-import { color } from "motion/react";
 import { parseColor } from "@/lib/utils";
 import { HTTPException } from "hono/http-exception";
 
@@ -76,11 +75,12 @@ export const categoryRouter = router({
             .min(1, "Color is required")
             .regex(/^#[0-9A-F]{6}$/i,"Invalid color format."),
             emoji: z.string().emoji("Invalid emoji").optional(),
+            websiteId: z.string()
         })
     )
     .mutation(async({c, ctx, input}) => {
         const {user} = ctx
-        const {color, name, emoji} = input
+        const {color, name, emoji, websiteId} = input
 
         const eventCategory = await db.eventCategory.create({
             data: {
@@ -88,6 +88,7 @@ export const categoryRouter = router({
                 color: parseColor(color),
                 emoji,
                 userId: user.id,
+                website_id: websiteId
             }
         })
 
@@ -97,19 +98,33 @@ export const categoryRouter = router({
 
 
     deleteCategory: privateProcedure
-    .input(z.object({name: z.string()}))
+    .input(z.object({name: z.string(),
+      websiteId: z.string()
+    }))
     .mutation(async({c, input, ctx}) => {
-        const {name} = input
+      
+ 
+
+  
+        
+        const {name, websiteId} = input
 
         await db.eventCategory.delete({
-            where: {name_userId: {name, userId: ctx.user.id}}
+            where: {name_userId: {name, userId: ctx.user.id},  website_id: websiteId }
         })
 
         return c.json({success: true})
     }),
 
-    insertQuickStartCategories: privateProcedure.mutation(
-        async({ctx, c}) => {
+    insertQuickStartCategories: privateProcedure
+    .input(z.object({
+      websiteId: z.string()
+    }))
+    .mutation(
+        async({ctx, c, input}) => {
+
+          const {websiteId} = input;
+          
             const categories = await db.eventCategory.createMany({
                 data: [{name: "Bug", emoji: "🪲", color: 0xff6b6b},
                     {name: "Sale", emoji: "💰", color: 0xffeb3b},
@@ -117,6 +132,7 @@ export const categoryRouter = router({
                 ].map((category) => ({
                     ...category,
                     userId: ctx.user.id,
+                    websiteId: websiteId
                 })),
             })
             return c.json({success: true, count: categories.count})
@@ -124,13 +140,16 @@ export const categoryRouter = router({
     ),
 
     pollCategory: privateProcedure
-    .input(z.object({name: CATEGORY_NAME_VALIDATOR}))
+    .input(z.object({name: CATEGORY_NAME_VALIDATOR,
+      websiteId: z.string()
+    }))
     .query(async({c, ctx, input}) => {
-        const {name} = input
+        const {name, websiteId } = input
 
         const category = await db.eventCategory.findUnique({
             where: {
-                name_userId: {name, userId: ctx.user.id}
+                name_userId: {name, userId: ctx.user.id},
+                website_id: websiteId
             },
             include:{
                 _count: {
@@ -155,13 +174,14 @@ export const categoryRouter = router({
     .input(
       z.object({
         name: CATEGORY_NAME_VALIDATOR,
+        websiteId: z.string(),
         page: z.number(),
         limit: z.number().max(50),
         timeRange: z.enum(["today", "week", "month"]),
       })
     )
     .query(async ({ c, ctx, input }) => {
-      const { name, page, limit, timeRange } = input
+      const { name, page, websiteId, limit, timeRange } = input
 
       const now = new Date()
       let startDate: Date
@@ -181,7 +201,7 @@ export const categoryRouter = router({
       const [events, eventsCount, uniqueFieldCount] = await Promise.all([
         db.event.findMany({
           where: {
-            EventCategory: { name, userId: ctx.user.id },
+            EventCategory: { name, userId: ctx.user.id, website_id: websiteId },
             createdAt: { gte: startDate },
           },
           skip: (page - 1) * limit,
@@ -190,14 +210,14 @@ export const categoryRouter = router({
         }),
         db.event.count({
           where: {
-            EventCategory: { name, userId: ctx.user.id },
+            EventCategory: { name, userId: ctx.user.id, website_id: websiteId },
             createdAt: { gte: startDate },
           },
         }),
         db.event
           .findMany({
             where: {
-              EventCategory: { name, userId: ctx.user.id },
+              EventCategory: { name, userId: ctx.user.id, website_id: websiteId },
               createdAt: { gte: startDate },
             },
             select: {
