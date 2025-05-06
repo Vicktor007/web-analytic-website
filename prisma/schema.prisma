@@ -52,8 +52,8 @@ model EventCategory {
   @@unique([name, userId])
   events Event[]
 
-  website Website @relation(fields: [website_id], references: [id])
-  website_id String
+  website Website? @relation(fields: [website_id], references: [id])
+  website_id String?
 }
 
 enum DeliveryStatus {
@@ -97,8 +97,8 @@ model Event {
   EventCategory EventCategory? @relation(fields: [eventCategoryId], references: [id])
   eventCategoryId String?
 
-  website Website @relation(fields: [website_id], references: [id])
-  website_id String
+  website Website? @relation(fields: [website_id], references: [id])
+  website_id String?
 
 
   @@index([createdAt])
