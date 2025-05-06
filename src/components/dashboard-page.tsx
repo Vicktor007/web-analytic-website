@@ -11,9 +11,10 @@ interface DashboardPageProps {
     children?: ReactNode
     hideBackButton?: boolean
     cta?: ReactNode
+    hidBackButtonHref?: string
 }
 
-export const DashboardPage = ({title, children, hideBackButton, cta}: DashboardPageProps ) => {
+export const DashboardPage = ({title, children, hideBackButton, hidBackButtonHref ="/dashboard", cta}: DashboardPageProps ) => {
     const router = useRouter();
 
     return(
@@ -23,7 +24,7 @@ export const DashboardPage = ({title, children, hideBackButton, cta}: DashboardP
                     <div className="flex items-center gap-8">
                         {hideBackButton ? null : (
                             <Button
-                            onClick={() => router.push("/dashboard")}
+                            onClick={() => router.push(`${hidBackButtonHref}`)}
                             className="w-fit bg-white"
                             variant="outline"
                             >

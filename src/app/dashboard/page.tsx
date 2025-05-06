@@ -50,7 +50,7 @@ const Page =  async({searchParams}: PageProps) => {
 
          {success ? <PaymentSuccessModal /> : null}
  
-        <DashboardPage  cta={
+        <DashboardPage hidBackButtonHref="/"  cta={
             <CreateEventCategoryModal>
                 <Button className=" w-full sm:w-fit">
                    <PlusIcon className="size-4 mr-2"/> Add Category
