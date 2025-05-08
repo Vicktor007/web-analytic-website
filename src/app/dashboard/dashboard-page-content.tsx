@@ -11,7 +11,11 @@ import { useState } from "react"
 import { Modal } from "@/components/ui/modal"
 import { DashboardEmptyState } from "./dashboard-empty-state"
 
-export const DashboardPageContent = () => {
+interface websiteId {
+id: string
+}
+
+export const DashboardPageContent = ({id}: websiteId) => {
 
     const [deletingCategory, setDeletingCategory] = useState<string | null>(null)
 
@@ -29,7 +33,7 @@ export const DashboardPageContent = () => {
 
     const {mutate: deleteCategory, isPending: isDeletingCategory} = useMutation({
         mutationFn: async (name: string) => {
-            await client.category.deleteCategory.$post({name})
+            await client.category.deleteCategory.$post({name, websiteId: id})
         }, 
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["user-event-categories"]})

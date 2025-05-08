@@ -11,6 +11,7 @@ import { useState } from "react"
 import { Modal } from "@/components/ui/modal"
 import { DashboardEmptyState } from "./dashboard-empty-state"
 import { usePathname } from "next/navigation"
+import { WebsiteEmptyState } from "./empty-website-page"
 
 export const DashboardPageContentWitWebsite = () => {
 
@@ -47,14 +48,12 @@ export const DashboardPageContentWitWebsite = () => {
         )
       }
         if(!websites || websites?.length === 0) {
-            return <DashboardEmptyState/>
+            return <WebsiteEmptyState/>
         }
 
         return(
             <>
-           {
-            pathname === "/dashboard" ? <div>dashboard</div> : (
-                <>
+          
                      <ul className="grid max-w-6xl grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 {websites?.map((Website) => (
                     <li key={Website.id} className="relative group z-10 transition-all duration-200 hover:-translate-y-0.5">
@@ -74,7 +73,7 @@ export const DashboardPageContentWitWebsite = () => {
                                 </div>
                                 
                                 <div className="flex items-center justify-between mt-4">
-                                    <Link href={`/dashboard/Website/${Website.domain}`}
+                                    <Link href={`/dashboard/website/${Website.id}`}
                                     className={buttonVariants({
                                         variant: "outline",
                                         size: "sm",
@@ -82,7 +81,7 @@ export const DashboardPageContentWitWebsite = () => {
                                     })}
                                     >View all <ArrowRight className="size-4"/></Link>
                                     <Button
-                                    onClick={() => setDeletingWebsite(Website.domain)}
+                                    onClick={() => setDeletingWebsite(Website.id)}
                                     variant="ghost" size="sm" className="text-gray-500 hover:text-red-600 transition-colors" aria-label={`Delete ${Website.domain}`}>
                                         <Trash2 className="size-5"/>
                                     </Button>
@@ -116,9 +115,7 @@ export const DashboardPageContentWitWebsite = () => {
                     </div>
                 </Modal>
                 </>
-            )
-           }
-            </>
+           
         )
     
 }

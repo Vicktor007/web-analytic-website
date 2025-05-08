@@ -20,6 +20,7 @@ const EVENT_CATEGORY_VALIDATOR = z.object({
         .min(1, "Color is required")
         .regex(/^#[0-9A-F]{6}$/i, "invalid color format."),
         emoji: z.string().emoji("Invalid emoji").optional(),
+        websiteId: z.string()
 })
 
 type EventCategoryForm =  z.infer<typeof EVENT_CATEGORY_VALIDATOR>
@@ -52,15 +53,16 @@ const EMOJI_OPTIONS = [
 
 interface CreateEventCategoryModel extends PropsWithChildren {
     containerClassName?: string
+    id: string
 }
 
-export const CreateEventCategoryModal = ({ children, containerClassName}: CreateEventCategoryModel) => {
+export const CreateEventCategoryModal = ({ children, containerClassName, id}: CreateEventCategoryModel) => {
  const [isOpen, setIsOpen] = useState(false)
  const queryClient = useQueryClient()
 
  const {mutate: createEventCategory, isPending} = useMutation({
     mutationFn: async(data: EventCategoryForm)=> {
-        await client.category.createEventCategory.$post(data)
+        await client.category.createEventCategory.$post({...data, websiteId: id})
     },
 
     onSuccess: () => {
@@ -78,7 +80,7 @@ export const CreateEventCategoryModal = ({ children, containerClassName}: Create
  const selectedEmoji = watch("emoji")
 
  const onSubmit = (data: EventCategoryForm) => {
-    createEventCategory(data)
+    createEventCategory({...data, websiteId: id})
  }
 
  return (

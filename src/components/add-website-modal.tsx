@@ -34,7 +34,7 @@ export const CreateWebsiteModal = ({ children, containerClassName}: CreateWebsit
     },
 
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ["user-event-categories"]})
+        queryClient.invalidateQueries({queryKey: ["user-websites"]})
         setIsOpen(false)
     },
  })

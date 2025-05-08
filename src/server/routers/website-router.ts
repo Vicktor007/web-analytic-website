@@ -5,6 +5,12 @@ import { WEBSITE_VALIDATOR } from "@/lib/validators/website-validator"
 import { db } from "@/db"
 import { startOfMonth } from "date-fns"
 
+
+
+const handleError = (c: { json: (arg0: { success: boolean; error: any }, arg1: number) => any }, message: any, status = 500) => {
+    return c.json({ success: false, error: message }, status);
+  };
+  
 export const websiteRouter = router({
 
     addWebsite: privateProcedure 
@@ -17,16 +23,22 @@ export const websiteRouter = router({
         const {user} = ctx
         const {domain} = input
 
+        try{
         const website = await db.website.create({
-          data: {
-            domain: domain.toLowerCase(),
-            userId: user.id
+            data: {
+              domain: domain.toLowerCase(),
+              userId: user.id
+            }
+          })
+  
+          return c.json({website})
+        } catch (error) {
+            console.error("Error adding website:", error);
+            return handleError(c, "Failed to add website");
           }
-        })
-
-        return c.json({website})
     }),
 
+    
     getWebsites: privateProcedure.query(async ({ c, ctx }) => {
         const websites = await db.website.findMany({
             where: { userId: ctx.user.id }, // Fetch only websites belonging to the logged-in user
