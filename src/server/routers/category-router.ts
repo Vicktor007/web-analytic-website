@@ -9,6 +9,12 @@ import { HTTPException } from "hono/http-exception";
 
 // export const dynamic = "force-dynamic"
 
+
+const handleError = (c: { json: (arg0: { success: boolean; error: any }, arg1: number) => any }, message: any, status = 500) => {
+  return c.json({ success: false, error: message }, status);
+};
+
+
 export const categoryRouter = router({
     getEventCategories: privateProcedure.query(async({c, ctx}) =>{
         const categories = await db.eventCategory.findMany({
@@ -124,7 +130,7 @@ export const categoryRouter = router({
         async({ctx, c, input}) => {
 
           const {websiteId} = input;
-          
+          try{
             const categories = await db.eventCategory.createMany({
                 data: [{name: "Bug", emoji: "🪲", color: 0xff6b6b},
                     {name: "Sale", emoji: "💰", color: 0xffeb3b},
@@ -132,10 +138,14 @@ export const categoryRouter = router({
                 ].map((category) => ({
                     ...category,
                     userId: ctx.user.id,
-                    websiteId: websiteId
+                    website_id: websiteId
                 })),
             })
             return c.json({success: true, count: categories.count})
+          }  catch (error) {
+            console.error("Error creating quickstart categories:", error);
+            return handleError(c, "Failed to quickstart categories");
+          }
         }
     ),
 

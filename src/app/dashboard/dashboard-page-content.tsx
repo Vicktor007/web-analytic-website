@@ -13,9 +13,10 @@ import { DashboardEmptyState } from "./dashboard-empty-state"
 
 interface websiteId {
 id: string
+website: string
 }
 
-export const DashboardPageContent = ({id}: websiteId) => {
+export const DashboardPageContent = ({website, id}: websiteId) => {
 
     const [deletingCategory, setDeletingCategory] = useState<string | null>(null)
 
@@ -49,7 +50,7 @@ export const DashboardPageContent = ({id}: websiteId) => {
         )
       }
         if(!categories || categories?.length === 0) {
-            return <DashboardEmptyState/>
+            return <DashboardEmptyState websiteId={id}/>
         }
 
         return(
@@ -101,7 +102,7 @@ export const DashboardPageContent = ({id}: websiteId) => {
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between mt-4">
-                                    <Link href={`/dashboard/category/${category.name}`}
+                                    <Link href={`/dashboard/${website}/${id}/category/${category.name}`}
                                     className={buttonVariants({
                                         variant: "outline",
                                         size: "sm",

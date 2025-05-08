@@ -59,7 +59,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
                 }
                 title={website}
             >
-                <DashboardPageContent id={websiteId} />
+                <DashboardPageContent website={website} id={websiteId} />
             </DashboardPage>
         </>
     );

@@ -4,12 +4,15 @@ import { Card } from "@/components/card"
 import { Button } from "@/components/ui/button"
 import { CreateEventCategoryModal } from "@/components/create-event-category-modal"
 
-export const DashboardEmptyState = () => {
+interface DashboardEmptyStateProps {
+  websiteId: string;
+}
+export const DashboardEmptyState = ({websiteId}: DashboardEmptyStateProps) => {
     const queryClient = useQueryClient()
 
     const {mutate: insertQuickStartCategories, isPending}  = useMutation({
         mutationFn: async () => {
-            await client.category.insertQuickStartCategories.$post()
+            await client.category.insertQuickStartCategories.$post({websiteId: websiteId})
         },
 
         onSuccess: () => {
@@ -37,7 +40,7 @@ export const DashboardEmptyState = () => {
           <span>{isPending ? "Creating..." : "Quickstart"}</span>
         </Button>
 
-        <CreateEventCategoryModal containerClassName="w-full sm:w-auto">
+        <CreateEventCategoryModal id={websiteId} containerClassName="w-full sm:w-auto">
           <Button className="flex items-center space-x-2 w-full sm:w-auto">
             <span>Add Category</span>
           </Button>
