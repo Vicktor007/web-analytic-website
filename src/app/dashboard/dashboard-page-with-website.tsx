@@ -9,7 +9,6 @@ import Link from "next/link"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { useState } from "react"
 import { Modal } from "@/components/ui/modal"
-import { DashboardEmptyState } from "./dashboard-empty-state"
 import { usePathname } from "next/navigation"
 import { WebsiteEmptyState } from "./empty-website-page"
 
@@ -73,7 +72,7 @@ export const DashboardPageContentWitWebsite = () => {
                                 </div>
                                 
                                 <div className="flex items-center justify-between mt-4">
-                                    <Link href={`/dashboard/website/${Website.id}`}
+                                    <Link href={`/dashboard/${Website.domain}/${Website.id}`}
                                     className={buttonVariants({
                                         variant: "outline",
                                         size: "sm",

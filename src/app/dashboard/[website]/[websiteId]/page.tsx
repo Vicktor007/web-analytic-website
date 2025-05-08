@@ -1,4 +1,4 @@
-// REMOVE "use client"
+
 import { DashboardPage } from "@/components/dashboard-page";
 import { db } from "@/db";
 import { currentUser } from "@clerk/nextjs/server"; // ✅ This works only in Server Components
@@ -11,12 +11,12 @@ import { PaymentSuccessModal } from "@/components/payment-success-modal";
 import { DashboardPageContent } from "../../dashboard-page-content";
 
 interface PageProps {
-    params: { websiteId: string };
+    params: { website: string; websiteId: string };
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const Page = async ({ params, searchParams }: PageProps) => {
-    const { websiteId } = params;
+    const {website, websiteId } = params;
     const auth = await currentUser(); // ✅ Now works since it's a Server Component
 
     if (!auth) {
@@ -57,7 +57,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
                         </Button>
                     </CreateEventCategoryModal>
                 }
-                title={websiteId}
+                title={website}
             >
                 <DashboardPageContent id={websiteId} />
             </DashboardPage>

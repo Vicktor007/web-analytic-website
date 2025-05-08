@@ -55,7 +55,7 @@ const Page =  async({searchParams}: PageProps) => {
         <DashboardPage hidBackButtonHref="/"  cta={
             <CreateWebsiteModal>
                 <Button className=" w-full sm:w-fit">
-                   <PlusIcon className="size-4 mr-2"/> Add Category
+                   <PlusIcon className="size-4 mr-2"/> Add Website
                 </Button>
             </CreateWebsiteModal>
         }

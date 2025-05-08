@@ -11,6 +11,7 @@ interface PageProps {
 }
 
 const Page = async ({params}: PageProps) => {
+    const websiteId = "";
     if(typeof params.name !== "string") return notFound()
 
         const auth = await currentUser()
@@ -47,7 +48,7 @@ const Page = async ({params}: PageProps) => {
 
                 return (
                     <DashboardPage title={`${category.emoji} ${category.name} events`}>
-      <CategoryPageContent hasEvents={hasEvents} category={category} />
+      <CategoryPageContent websiteId={websiteId} hasEvents={hasEvents} category={category} />
     </DashboardPage>
                 )
 }
