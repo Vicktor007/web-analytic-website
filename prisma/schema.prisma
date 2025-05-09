@@ -76,6 +76,28 @@ model Website {
   EventCategory EventCategory[]
 
   Event Event[]
+
+}
+
+model website_page_views {
+    id String @id @default(cuid())
+
+    domain String
+
+    page_visited String
+
+    createdAt DateTime @default(now())
+}
+
+model website_visits {
+    id String @id @default(cuid())
+
+    domain String
+
+    source String
+
+    createdAt DateTime @default(now())
+
 }
 
 model Event {

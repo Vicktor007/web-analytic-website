@@ -9,12 +9,10 @@ import Link from "next/link"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { useState } from "react"
 import { Modal } from "@/components/ui/modal"
-import { usePathname } from "next/navigation"
 import { WebsiteEmptyState } from "./empty-website-page"
 
 export const DashboardPageContentWitWebsite = () => {
 
-    const pathname = usePathname();
     const [deletingWebsite, setDeletingWebsite] = useState<string | null>(null)
 
     const queryClient = useQueryClient();
