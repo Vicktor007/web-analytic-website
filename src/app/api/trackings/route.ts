@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 
@@ -16,7 +16,7 @@ export async function OPTIONS(){
     return NextResponse.json({}, {headers: corsHeaders});
   }
 
-  export async function POST(request: { json: () => any; }){
+  export async function POST(request: NextRequest){
 
     const corsHeaders = {
     "Access-Control-Allow-Origin": "*",

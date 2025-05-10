@@ -8,13 +8,13 @@ interface PageProps {
     params: {
         name: string | string[] | undefined,
         website: string | string[] | undefined,
-        
+        websiteId: string
     },
-    websiteId: string
+    
 }
 
 
-const Page = async ({params, websiteId}: PageProps) => {
+const Page = async ({params}: PageProps) => {
     if(typeof params.name !== "string") return notFound()
 
         const auth = await currentUser()
@@ -50,8 +50,8 @@ const Page = async ({params, websiteId}: PageProps) => {
                 const hasEvents = category._count.events > 0
 
                 return (
-                    <DashboardPage hidBackButtonHref={`/dashboard/${params.website}/${websiteId}`} title={`${category.emoji} ${category.name} events`}>
-      <CategoryPageContent websiteId={websiteId} hasEvents={hasEvents} category={category} />
+                    <DashboardPage hidBackButtonHref={`/dashboard/${params.website}/${params.websiteId}`} title={`${category.emoji} ${category.name} events`}>
+      <CategoryPageContent websiteId={params.websiteId} hasEvents={hasEvents} category={category} />
     </DashboardPage>
                 )
 }
