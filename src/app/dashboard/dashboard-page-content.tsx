@@ -44,7 +44,7 @@ export const DashboardPageContent = ({website, id}: websiteId) => {
 
     if(isEventCategoriesLoading) {
         return(
-            <div className="flex items-center justify-center flex-1 h-full w-full">
+            <div className="flex items-center justify-center flex-1 h-[50dvh] w-full">
                 <LoadingSpinner/>
             </div>
         )
