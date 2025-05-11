@@ -16,9 +16,13 @@ const handleError = (c: { json: (arg0: { success: boolean; error: any }, arg1: n
 
 
 export const categoryRouter = router({
-    getEventCategories: privateProcedure.query(async({c, ctx}) =>{
+    getEventCategories: privateProcedure.input(z.object({
+      websiteId: z.string()
+    })).query(async({c, ctx,input}) =>{
+
+      const {websiteId} = input;
         const categories = await db.eventCategory.findMany({
-            where: {userId: ctx.user.id},
+            where: {userId: ctx.user.id, website_id: websiteId},
             select: {
                 id: true,
                 name: true,
