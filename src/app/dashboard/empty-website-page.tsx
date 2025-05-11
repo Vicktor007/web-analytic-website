@@ -1,8 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { client } from "../lib/client"
 import { Card } from "@/components/card"
 import { Button } from "@/components/ui/button"
-import { CreateEventCategoryModal } from "@/components/create-event-category-modal"
 import { CreateWebsiteModal } from "@/components/add-website-modal"
 
 export const WebsiteEmptyState = () => {

@@ -21,7 +21,7 @@ const appRouter = app
 .route("/payment", paymentRouter)
 .route("/project", projectRouter)
 .route("/website", websiteRouter)
-.route("/website", trackingRouter)
+.route("/tracking", trackingRouter)
 // The handler Next.js uses to answer API requests
 export const httpHandler = handle(app)
 

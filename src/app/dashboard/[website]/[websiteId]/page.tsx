@@ -33,6 +33,8 @@ const Page = async ({ params, searchParams }: PageProps) => {
         redirect("/welcome");
     }
 
+    
+
     if (searchParams.intent === "upgrade") {
         const session = await createCheckOutSession({
             userEmail: user.email,
@@ -46,6 +48,26 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
     const success = searchParams.success;
 
+
+    const websiteData =  await Promise.all([
+    db.website_page_views.count({
+  where: {
+    domain: website
+  },
+}),
+
+ await db.website_visits.count({
+  where: {
+    domain: website
+  },
+})
+    ])
+
+   // Destructure the counts from the array
+const [pageViewsCount, visitsCount] = websiteData;
+
+// Check if there's any tracking data
+const hasTrackings = (pageViewsCount + visitsCount) > 0;
     return (
         <>
             {success ? <PaymentSuccessModal /> : null}
@@ -69,7 +91,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
                     <TabsTrigger value="Custom Events">Custom Events</TabsTrigger>
                     </TabsList>
                     <TabsContent className="w-full" value="general">
-                        <GeneralTrackingPageContent website={website}/>
+                        <GeneralTrackingPageContent hasTrackings={hasTrackings} website={website}/>
               </TabsContent>
                     <TabsContent value="Custom Events" >
                         <DashboardPageContent website={website} id={websiteId} />

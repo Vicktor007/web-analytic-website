@@ -1,16 +1,57 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import { EmptyTrackingState } from './empty-tracking-state';
+import { useSearchParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { client } from '@/app/lib/client';
 
 interface PageProps {
     website: string
+    hasTrackings: boolean
+
 }
 
-export const GeneralTrackingPageContent = ({website}: PageProps) => {
+export const GeneralTrackingPageContent = ({website, hasTrackings: initialData}: PageProps) => {
+
+  const searchParams = useSearchParams()
+
+  const [activeTab, setActiveTab] = useState<"today" | "week" | "month">("today")
+
+  const page = parseInt(searchParams.get("page") || "1", 10)
+    const limit = parseInt(searchParams.get("limit") || "30", 10)
+
+      const [pagination, setPagination] = useState({
+            pageIndex: page - 1,
+            pageSize: limit
+        })
 
 
-    const totalVisits = 0;
+        const { data: pollingData} = useQuery({
+                    queryKey: ["website", website, "hasTrackings"],
+                    initialData: {hasTrackings: initialData},
+                })
 
-    if(totalVisits >= 0) {
+
+    const {data, isFetching} = useQuery({
+      queryKey: ["website-trackings", website, pagination.pageIndex, pagination.pageSize, activeTab],
+
+      queryFn: async () => {
+        const response = await client.tracking.getWebsiteTrackings.$get({
+          domain: website,
+          page: pagination.pageIndex + 1,
+          limit: pagination.pageSize,
+          timeRange: activeTab
+        })
+        return await response.json()
+      },
+      refetchOnWindowFocus: false,
+      enabled: pollingData.hasTrackings
+    })            
+
+
+
+
+    if(!pollingData.hasTrackings) {
         return (
             <EmptyTrackingState website={website}/>
         )

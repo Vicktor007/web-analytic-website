@@ -1,6 +1,10 @@
-
+"use client"
+import { client } from "@/app/lib/client"
 import { Card } from "@/components/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useQuery } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import {Prism as SyntaxHighlighter} from "react-syntax-highlighter"
 import { sunburst } from "react-syntax-highlighter/dist/esm/styles/hljs"
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
@@ -13,46 +17,33 @@ interface PageProps {
 }
 export const EmptyTrackingState = ({website}: PageProps) => {
    
+  const router = useRouter();
     const next_url = process.env.NEXT_PUBLIC_APP_URL;
 
-    const categoryName = "Name"
 
-    // const {data} = useQuery({
-    //     queryKey: ["category", categoryName, "hasEvents"],
+    const {data} = useQuery({
+        queryKey: ["website", website, "hasTrackings"],
 
-    //     queryFn: async () => {
-    //         const res = await client.category.pollCategory.$get({
-    //             name: categoryName,
-    //             websiteId: websiteId
-    //         })
+        queryFn: async () => {
+            const res = await client.tracking.pollWebsiteData.$get({
+                domain: website
+            })
 
-    //         return await res.json()
-    //     },
-    //     refetchInterval(query){
-    //         return query.state.data?.hasEvents ? false : 1000
-    //     },
-    // })
-
-    // const hasEvents = data?.hasEvents
-
-
-    // useEffect(() => {
-    //     if(hasEvents) router.refresh()
-    // }, [hasEvents, router])
-
-    const codeSnippet = `await fetch('${next_url}/api/events', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer YOUR_API_KEY'
+            return await res.json()
         },
-        body: JSON.stringify({
-          category: '${categoryName}',
-          fields: {
-            field1: 'value1', // for example: user id
-            field2: 'value2' // for example: user email
-          }
-        })
-      })`
+        refetchInterval(query){
+            return query.state.data?.hasTrackings ? false : 1000
+        },
+    })
+
+    const hasTrackings = data?.hasTrackings
+
+
+    useEffect(() => {
+        if(hasTrackings) router.refresh()
+    }, [hasTrackings, router])
+
+  
 
        const JS_codeString = `<script defer data-domain="${website}" src="${next_url}/tracking-script.ts"></script>`;
   const NextJS_codeString = `
@@ -152,7 +143,7 @@ src="${next_url}/tracking-script.ts"/>
         <div className="flex gap-2 items-center">
           <div className="size-2 bg-green-500 rounded-full animate-pulse" />
           <span className="text-sm text-gray-600">
-            Listening to incoming events...
+            Listening to incoming trackings...
           </span>
         </div>
 
