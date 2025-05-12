@@ -121,13 +121,13 @@ const hasTrackings = pageViewsCount || visitsCount > 0;
 //     message: `No tracking data found for domain "${domain}"`,
 //   });
 // }
-console.log({
-  hasTrackings,
-  visits,
-  pageViews,
-  pageViewsCount,
-  visitsCount
-});
+// console.log({
+//   hasTrackings,
+//   visits,
+//   pageViews,
+//   pageViewsCount,
+//   visitsCount
+// });
 
 
 return c.json({

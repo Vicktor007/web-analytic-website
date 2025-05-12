@@ -69,13 +69,13 @@ src="${next_url}/tracking-script.ts"/>
 
       <Tabs defaultValue="Js/React" className="w-full space-y-5">
       <TabsList
-        className="w-full bg-black rounded-none space-x-5
+        className="w-full bg-black rounded-md space-x-5
                          items-center justify-center flex"
       >
-        <TabsTrigger value="Js/React" className="rounded-none">
+        <TabsTrigger value="Js/React" className="rounded-md">
           Js/React
         </TabsTrigger>
-        <TabsTrigger className="rounded-none" value="Nextjs">
+        <TabsTrigger className="rounded-md" value="Nextjs">
           Nextjs
         </TabsTrigger>
       </TabsList>
