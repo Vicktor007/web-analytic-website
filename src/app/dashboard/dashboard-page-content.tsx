@@ -81,7 +81,7 @@ export const DashboardPageContent = ({website, id}: websiteId) => {
                                         <Clock className="size-4 mr-2 text-brand-500"/>
                                         <span className="font-medium">Last ping:</span>
                                         <span className="ml-1">
-                                            {category.lastPing ? formatDistanceToNow(category.lastPing) + "ago" : "never"}
+                                            {category.lastPing ? formatDistanceToNow(category.lastPing) + " ago" : "never"}
                                         </span>
                                     </div>
 

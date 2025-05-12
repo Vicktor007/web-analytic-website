@@ -73,7 +73,7 @@ const hasTrackings = (pageViewsCount + visitsCount) > 0;
             {success ? <PaymentSuccessModal /> : null}
 
             <DashboardPage
-                hidBackButtonHref="/"
+                hidBackButtonHref="/dashboard"
                 cta={
                     <CreateEventCategoryModal id={websiteId}>
                         <Button className="w-full sm:w-fit">

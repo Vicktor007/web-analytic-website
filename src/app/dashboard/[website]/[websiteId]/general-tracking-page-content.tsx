@@ -15,6 +15,10 @@ export const GeneralTrackingPageContent = ({website, hasTrackings: initialData}:
 
   const searchParams = useSearchParams()
 
+  const [pageViews, setPageViews] = useState([]);
+  const [groupedPageViews, setGroupedPageViews] = useState([]);
+
+
   const [activeTab, setActiveTab] = useState<"today" | "week" | "month">("today")
 
   const page = parseInt(searchParams.get("page") || "1", 10)
@@ -48,7 +52,25 @@ export const GeneralTrackingPageContent = ({website, hasTrackings: initialData}:
       enabled: pollingData.hasTrackings
     })            
 
+    console.log("Data received from API:", data);
 
+
+//  function groupPageViews(pageViews) {
+//     const groupedPageViews = {};
+
+//     pageViews && pageViews?.forEach(({ page }) => {
+//       // Extract the path from the page URL by removing the protocol and hostname
+//       const path = page?.replace(/^(?:\/\/|[^/]+)*\//, "");
+
+//       // Increment the visit count for the page path
+//       groupedPageViews[path] = (groupedPageViews[path] || 0) + 1;
+//     });
+
+//     return Object.keys(groupedPageViews).map((page) => ({
+//       page: page,
+//       visits: groupedPageViews[page],
+//     }));
+//   }
 
 
     if(!pollingData.hasTrackings) {
@@ -67,18 +89,18 @@ export const GeneralTrackingPageContent = ({website, hasTrackings: initialData}:
                 >
                   <div className="bg-black border-white/5 border text-white text-center">
                     <p className="text-white/70 font-medium py-8 w-full text-center border-b border-white/5">
-                      TOTAL VISITS
+                      WEBSITE VISITS
                     </p>
                     <p className="py-12 text-3xl lg:text-4xl font-bold bg-[#050505]">
-                      12
+                     {data?.website_visits.length}
                     </p>
                   </div>
                   <div className="bg-black border-white/5 border text-white text-center">
                     <p className="font-medium text-white/70 py-8  w-full text-center border-b border-white/5">
-                      PAGE VIEWS
+                     PAGE VIEWS
                     </p>
                     <p className="py-12 text-3xl lg:text-4xl font-bold bg-[#050505]">
-                      12
+                     {data?.pages_viewed.length}
                     </p>
                   </div>
                 </div>

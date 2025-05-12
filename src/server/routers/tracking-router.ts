@@ -95,11 +95,11 @@ export const trackingRouter = router({
   },
 });
 
-// const pageViews = await db.website_page_views.findMany({
-//   where: {
-//     domain,
-//   },
-// });
+const pageViews = await db.website_page_views.findMany({
+  where: {
+    domain,
+  },
+});
 
 const visitsCount = await db.website_visits.count({
   where: {
@@ -107,11 +107,11 @@ const visitsCount = await db.website_visits.count({
   },
 });
 
-// const visits = await db.website_visits.findMany({
-//   where: {
-//     domain,
-//   },
-// });
+const visits = await db.website_visits.findMany({
+  where: {
+    domain,
+  },
+});
 
 const hasTrackings = pageViewsCount || visitsCount > 0;
 
@@ -121,9 +121,21 @@ const hasTrackings = pageViewsCount || visitsCount > 0;
 //     message: `No tracking data found for domain "${domain}"`,
 //   });
 // }
+console.log({
+  hasTrackings,
+  visits,
+  pageViews,
+  pageViewsCount,
+  visitsCount
+});
+
 
 return c.json({
-  hasTrackings
+  hasTrackings,
+  visits,
+  pageViews,
+  pageViewsCount,
+  visitsCount
 });
 
   }),
