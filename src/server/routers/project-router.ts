@@ -25,11 +25,17 @@ export const projectRouter = router({
       where: { userId: user.id },
     })
 
+    const websitesCount =  await db.website.count({
+      where: {userId: user.id}
+    })
+
     const limits = user.plan === "PRO" ? PRO_QUOTA : FREE_QUOTA
 
     const resetDate = addMonths(currentDate, 1)
 
     return c.superjson({
+      websitesCount,
+      websitesLimit: limits.maxWebsites,
       categoriesUsed: categoryCount,
       categoriesLimit: limits.maxEventCategories,
       eventsUsed: eventCount,

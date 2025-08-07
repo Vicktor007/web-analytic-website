@@ -19,9 +19,10 @@ const Page = async ()=> {
         redirect("/sign-in")
     }
 
+    const capitalizedUserPlan = user.plan.charAt(0).toUpperCase() + user.plan.slice(1).toLowerCase();
+
     return(
-        <DashboardPage title="
-        Pro Membership">
+        <DashboardPage title={`${capitalizedUserPlan} Subscription` }>
             <UpgradePageContent plan={user.plan} />
         </DashboardPage>
     )

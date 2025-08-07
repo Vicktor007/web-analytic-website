@@ -61,15 +61,19 @@ const [groupedPageSources, setGroupedPageSources] = useState<{ source: string; v
 
       queryFn: async () => {
         const response = await client.tracking.getWebsiteTrackings.$get({
+          
           domain: website,
           page: pagination.pageIndex + 1,
           limit: pagination.pageSize,
           timeRange: activeTab
-        })
+          
+        });
+         console.log(response)
         return await response.json()
+       
       },
       refetchOnWindowFocus: false,
-      enabled: pollingData.hasTrackings
+      enabled: true,
     })            
 
     useEffect(() => {
@@ -115,11 +119,11 @@ const groupPageViews = (data: { pages_viewed?: WebsitePageView[] }) => {
     // console.log("Data received from API:", data);
 
 
-    if(!pollingData.hasTrackings) {
-        return (
-            <EmptyTrackingState website={website}/>
-        )
-    }
+    // Show empty state if there's no tracking data
+if (!isFetching && (!data?.website_visits?.length && !data?.pages_viewed?.length)) {
+  return <EmptyTrackingState website={website} />;
+}
+
 
     if(isFetching) {
             return(

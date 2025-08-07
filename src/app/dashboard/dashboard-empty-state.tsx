@@ -21,11 +21,11 @@ export const DashboardEmptyState = ({websiteId}: DashboardEmptyStateProps) => {
     })
 
     return (
-        <Card className="flex flex-col items-center justify-center rounded-2xl flex-1 text-center p-6">
+        <Card className="flex flex-col items-center justify-center rounded-2xl flex-1 text-center mt-4 p-6">
             <div className="flex justify-center w-full">
-                <img src="/brand-asset-wave.png" alt="no categories" className="size-48 -mt-24" />
+                <img src="/brand-asset-wave.png" alt="no categories" className="size-48 -mt-20" />
             </div>
-            <h1 className="mt-2 text-xl/8 font-medium traacking-tight text-gray-900">No event category yet</h1>
+            <h1 className=" text-xl/8 font-medium traacking-tight text-gray-900">No event category yet</h1>
             <p className="text-sm/6 text-gray-600 max=w-prose mt-2 mb-8">
             Start tracking events by creating your first category.
             </p>

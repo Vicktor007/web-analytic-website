@@ -48,6 +48,20 @@ export const UpgradePageContent = ({plan}: {plan: plan}) => {
         </div>
   
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card>
+            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <p className="text-sm/6 font-medium">Event Categories</p>
+              <BarChart className="size-4 text-muted-foreground" />
+            </div>
+  
+            <div>
+              <p className="text-2xl font-bold">
+                {usageData?.categoriesUsed || 0} of{" "}
+                {usageData?.categoriesLimit.toLocaleString() || 10}
+              </p>
+              <p className="text-xs/5 text-muted-foreground">Active categories</p>
+            </div>
+          </Card>
           <Card className="border-2 border-brand-700">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
               <p className="text-sm/6 font-medium">Total Events</p>
@@ -66,18 +80,19 @@ export const UpgradePageContent = ({plan}: {plan: plan}) => {
           </Card>
           <Card>
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <p className="text-sm/6 font-medium">Event Categories</p>
+              <p className="text-sm/6 font-medium">Websites</p>
               <BarChart className="size-4 text-muted-foreground" />
             </div>
   
             <div>
               <p className="text-2xl font-bold">
-                {usageData?.categoriesUsed || 0} of{" "}
-                {usageData?.categoriesLimit.toLocaleString() || 10}
+                {usageData?.websitesCount || 0} of{" "}
+                {usageData?.websitesLimit.toLocaleString() || 10}
               </p>
-              <p className="text-xs/5 text-muted-foreground">Active categories</p>
+              <p className="text-xs/5 text-muted-foreground">Active websites</p>
             </div>
           </Card>
+          
         </div>
   
         <p className="text-sm text-gray-500">

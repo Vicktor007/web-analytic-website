@@ -20,6 +20,20 @@ export const EmptyTrackingState = ({website}: PageProps) => {
   const router = useRouter();
     const next_url = process.env.NEXT_PUBLIC_APP_URL;
 
+//     const { data, error } = useQuery({
+//     queryKey: ["website", website, "hasTrackings"],
+//     queryFn: async () => {
+//         try {
+//             const res = await client.tracking.pollWebsiteData.$get({ domain: website });
+//             return res.json();
+//         } catch (err) {
+//             console.error("Error fetching website tracking:", err);
+//             return { hasTrackings: false }; // Return default data on error
+//         }
+//     },
+//     refetchInterval: (query) => query.state.data?.hasTrackings ? false : 1000,
+// });
+
 
     const {data} = useQuery({
         queryKey: ["website", website, "hasTrackings"],
@@ -29,7 +43,7 @@ export const EmptyTrackingState = ({website}: PageProps) => {
                 domain: website
             })
 
-            return await res.json()
+            return await res.json();
         },
         refetchInterval(query){
             return query.state.data?.hasTrackings ? false : 1000

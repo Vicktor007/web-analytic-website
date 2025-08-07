@@ -4,6 +4,7 @@ import { privateProcedure } from "../procedures"
 import { WEBSITE_VALIDATOR } from "@/lib/validators/website-validator"
 import { db } from "@/db"
 import { startOfMonth } from "date-fns"
+import { FREE_QUOTA, PRO_QUOTA } from "@/config"
 
 
 
@@ -24,6 +25,22 @@ export const websiteRouter = router({
         const {domain} = input
 
         try{
+            // 1. Determine the user's plan
+                  const userPlan = user.plan === "PRO" ? PRO_QUOTA : FREE_QUOTA;
+                  const maxWebsitesAllowed = userPlan.maxWebsites;
+            
+                  // 2. Count existing websites for this user
+                  const existingWebsiteCount = await db.website.count({
+                    where: { userId: user.id },
+                  });
+            
+                  // 3. Check if the user has reached their quota
+                  if (existingWebsiteCount >= maxWebsitesAllowed) {
+                    return c.json(
+                      { error: "website limit reached for your current plan." },
+                      403
+                    );
+                  }
         const website = await db.website.create({
             data: {
               domain: domain.toLowerCase(),

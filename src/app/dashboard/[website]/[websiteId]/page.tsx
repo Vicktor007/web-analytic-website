@@ -8,9 +8,7 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { createCheckOutSession } from "@/lib/stripe";
 import { PaymentSuccessModal } from "@/components/payment-success-modal";
-import { DashboardPageContent } from "../../dashboard-page-content";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GeneralTrackingPageContent } from "./general-tracking-page-content";
+import { TabsWrapper } from "../TabsWrapper";
 
 interface PageProps {
     params: { website: string; websiteId: string };
@@ -74,29 +72,16 @@ const hasTrackings = (pageViewsCount + visitsCount) > 0;
 
             <DashboardPage
                 hidBackButtonHref="/dashboard"
-                cta={
-                    <CreateEventCategoryModal id={websiteId}>
-                        <Button className="w-full sm:w-fit">
-                            <PlusIcon className="size-4 mr-2" /> Add Category
-                        </Button>
-                    </CreateEventCategoryModal>
-                }
+                cta={searchParams.tab !== "general" && (
+        <CreateEventCategoryModal id={websiteId}>
+            <Button className="w-full sm:w-fit">
+                <PlusIcon className="size-4 mr-2" /> Add Category
+            </Button>
+        </CreateEventCategoryModal>
+    )}
                 title={website}
             >
-                <Tabs defaultValue="general" className="flex flex-col w-full">
-                    <TabsList className="flex items-center w-full justify-center">
-                    <TabsTrigger value="general">
-                       General
-                    </TabsTrigger>
-                    <TabsTrigger value="Custom Events">Custom Events</TabsTrigger>
-                    </TabsList>
-                    <TabsContent className="w-full" value="general">
-                        <GeneralTrackingPageContent hasTrackings={hasTrackings} website={website}/>
-              </TabsContent>
-                    <TabsContent value="Custom Events" >
-                        <DashboardPageContent website={website} id={websiteId} />
-                    </TabsContent>
-                </Tabs>
+                <TabsWrapper website={website} websiteId={websiteId}/>
             </DashboardPage>
         </>
     );

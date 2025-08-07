@@ -23,7 +23,7 @@ export const DashboardPageContent = ({website, id}: websiteId) => {
     const queryClient = useQueryClient();
 
     const {data: categories, isPending: isEventCategoriesLoading} = useQuery({
-        queryKey: ["user-event-categories"],
+        queryKey: ["user-event-categories", id],
         queryFn: async () => {
             const res = await client.category.getEventCategories.$get({websiteId: id})
             const {categories} = await res.json()

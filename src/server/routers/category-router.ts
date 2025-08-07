@@ -6,6 +6,7 @@ import { z } from "zod";
 import { CATEGORY_NAME_VALIDATOR } from "@/lib/validators/category-validator";
 import { parseColor } from "@/lib/utils";
 import { HTTPException } from "hono/http-exception";
+import { FREE_QUOTA, PRO_QUOTA } from "@/config";
 
 // export const dynamic = "force-dynamic"
 
@@ -77,33 +78,57 @@ export const categoryRouter = router({
 
 
     createEventCategory: privateProcedure
-    .input(
-        z.object({
-            name:CATEGORY_NAME_VALIDATOR,
-            color: z
-            .string()
-            .min(1, "Color is required")
-            .regex(/^#[0-9A-F]{6}$/i,"Invalid color format."),
-            emoji: z.string().emoji("Invalid emoji").optional(),
-            websiteId: z.string()
-        })
-    )
-    .mutation(async({c, ctx, input}) => {
-        const {user} = ctx
-        const {color, name, emoji, websiteId} = input
+  .input(
+    z.object({
+      name: CATEGORY_NAME_VALIDATOR,
+      color: z
+        .string()
+        .min(1, "Color is required")
+        .regex(/^#[0-9A-F]{6}$/i, "Invalid color format."),
+      emoji: z.string().emoji("Invalid emoji").optional(),
+      websiteId: z.string(),
+    })
+  )
+  .mutation(async ({ c, ctx, input }) => {
+    const { user } = ctx;
+    const { color, name, emoji, websiteId } = input;
 
-        const eventCategory = await db.eventCategory.create({
-            data: {
-                name: name.toLowerCase(),
-                color: parseColor(color),
-                emoji,
-                userId: user.id,
-                website_id: websiteId
-            }
-        })
+    try {
+      // 1. Determine the user's plan
+      const userPlan = user.plan === "PRO" ? PRO_QUOTA : FREE_QUOTA;
+      const maxAllowedCategories = userPlan.maxEventCategories;
 
-        return c.json({eventCategory})
-    }),
+      // 2. Count existing categories for this user
+      const existingCategoryCount = await db.eventCategory.count({
+        where: { userId: user.id },
+      });
+
+      // 3. Check if the user has reached their quota
+      if (existingCategoryCount >= maxAllowedCategories) {
+        return c.json(
+          { error: "Category limit reached for your current plan." },
+          403
+        );
+      }
+
+      // 4. Create the category
+      const eventCategory = await db.eventCategory.create({
+        data: {
+          name: name.toLowerCase(),
+          color: parseColor(color),
+          emoji,
+          userId: user.id,
+          website_id: websiteId,
+        },
+      });
+
+      return c.json({ eventCategory });
+    } catch (error) {
+      console.error("Error creating category:", error);
+      return handleError(c, "Failed to create category");
+    }
+  }),
+
 
 
 
