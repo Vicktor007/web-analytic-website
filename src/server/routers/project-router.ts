@@ -1,6 +1,6 @@
 import { addMonths, startOfMonth } from "date-fns"
 import { router } from "../__internals/router"
-import { privateProcedure } from "../procedures"
+import { privateProcedure, publicProcedure } from "../procedures"
 import { db } from "@/db"
 import { FREE_QUOTA, PRO_QUOTA } from "@/config"
 import { z } from "zod"
@@ -57,4 +57,28 @@ export const projectRouter = router({
 
       return c.json({ success: true })
     }),
-})
+
+    setUserIDs: privateProcedure
+  .input(
+    z.object({
+      discordId: z.string().max(20).optional(),
+      telegramId: z.string().max(20).optional(),
+    })
+  )
+  .mutation(async ({ c, ctx, input }) => {
+    const { user } = ctx
+    const { discordId, telegramId } = input
+
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        ...(discordId !== undefined && { discordId }),
+        ...(telegramId !== undefined && { telegramChatId: telegramId }),
+      },
+    })
+
+    return c.json({ success: true })
+  }),
+
+
+  })

@@ -27,6 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "prisma-extensions.d.ts"
-  ],
+, "bot-runner.cts"  ],
   "exclude": ["node_modules"]
 }

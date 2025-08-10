@@ -1,7 +1,7 @@
 
 import { DashboardPage } from "@/components/dashboard-page";
 import { db } from "@/db";
-import { currentUser } from "@clerk/nextjs/server"; // ✅ This works only in Server Components
+import { currentUser } from "@clerk/nextjs/server"; 
 import { redirect } from "next/navigation";
 import { CreateEventCategoryModal } from "@/components/create-event-category-modal";
 import { Button } from "@/components/ui/button";

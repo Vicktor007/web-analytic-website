@@ -21,7 +21,7 @@ const Page = async () => {
 
   return (
     <DashboardPage title="Account Settings">
-      <AccountSettings discordId={user.discordId ?? ""} />
+      <AccountSettings discordId={user.discordId ?? ""} telegramId={user.telegramChatId ?? ""} />
     </DashboardPage>
   )
 }

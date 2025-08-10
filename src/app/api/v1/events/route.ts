@@ -1,6 +1,7 @@
 import { DiscordClient } from "@/app/lib/discord-client";
 import { FREE_QUOTA, PRO_QUOTA } from "@/config";
 import { db } from "@/db";
+import { sendEventToPlatforms } from "@/lib/eventSenders/EventDispatcher";
 import { CATEGORY_NAME_VALIDATOR } from "@/lib/validators/category-validator";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -119,13 +120,26 @@ export const POST = async(req: NextRequest) => {
       )
     }
 
+    if (!category.website_id) {
+  // handle case when category has no website assigned
+  return NextResponse.json({ message: "No website linked to this category" }, { status: 404 });
+}
+
+    const website = await db.website.findUnique({
+      where:{
+        userId: user.id,
+        id: category.website_id
+      }
+    })
+
     const eventData = {
       title: `${category.emoji || "🔔"} ${
         category.name.charAt(0).toUpperCase() + category.name.slice(1)
       }`,
+      website: website?.domain,
       description:
         validationResult.description ||
-        `A new ${category.name} event has occurred!`,
+        `A new ${category.name} event has occurred! on website : ${website?.domain}`,
       color: category.color,
       timestamp: new Date().toISOString(),
       fields: Object.entries(validationResult.fields || {}).map(
@@ -146,15 +160,16 @@ export const POST = async(req: NextRequest) => {
         userId: user.id,
         fields: validationResult.fields || {},
         eventCategoryId: category.id,
+        website_id: category.website_id
       },
     })
 
     try {
-      await discord.sendEmbed(dmChannel.id, eventData)
+      await sendEventToPlatforms(user.preferredPlatform, user.discordId, eventData);
 
       await db.event.update({
         where: { id: event.id },
-        data: { deliveryStatus: "DELIVERED" },
+        data: { deliveryStatus: "DELIVERED", website_id: website?.id },
       })
 
       await db.quota.upsert({
@@ -170,7 +185,7 @@ export const POST = async(req: NextRequest) => {
     } catch (err) {
       await db.event.update({
         where: { id: event.id },
-        data: { deliveryStatus: "FAILED" },
+        data: { deliveryStatus: "FAILED", website_id: website?.id },
       })
 
       console.log(err)
