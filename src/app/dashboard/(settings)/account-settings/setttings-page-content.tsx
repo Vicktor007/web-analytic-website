@@ -87,7 +87,7 @@ export const AccountSettings = ({
       <div className="pt-4">
         <Button
           onClick={() => mutate({ discordId, telegramId })}
-          disabled={isPending || !hasChanges}
+          disabled={isPending || !hasChanges || discordId === '' || telegramId === ''}
         >
           {isPending ? "Saving..." : "Save Changes"}
         </Button>
