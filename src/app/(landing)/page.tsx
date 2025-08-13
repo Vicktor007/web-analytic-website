@@ -48,7 +48,7 @@ const Page = async () => {
           </Heading>
         </div>
 
-        <p>PingPanda is the easiest way to monitor your SaaS. Get instant notifications {" "}
+        <p>DingDot is the easiest way to monitor your SaaS. Get instant notifications {" "}
           <span className="font-semibold text-gray-700">
             sales  new users, or any other event {" "}
           </span>
@@ -82,8 +82,8 @@ const Page = async () => {
               <AnimatedList>
                 <DiscordMessage 
                 avatarSrc="/brand-asset-profile-picture.png"
-                avatarAlt="pingpanda avatar"
-                username="PingPanda"
+                avatarAlt="dingdot avatar"
+                username="dingdot"
                 timestamp="Today at 12:31PM"
                 badgeText="SignUp"
                 badgeColor="#43b581"
@@ -95,8 +95,8 @@ const Page = async () => {
                 />
                 <DiscordMessage 
                 avatarSrc="/brand-asset-profile-picture.png"
-                avatarAlt="pingpanda avatar"
-                username="PingPanda"
+                avatarAlt="dingdot avatar"
+                username="Dingdot"
                 timestamp="Today at 12:31PM"
                 badgeText="Subscription"
                 badgeColor="#faa61a"
@@ -110,8 +110,8 @@ const Page = async () => {
                 />
                 <DiscordMessage 
                 avatarSrc="/brand-asset-profile-picture.png"
-                avatarAlt="pingpanda avatar"
-                username="PingPanda"
+                avatarAlt="dingdot avatar"
+                username="Dingdot"
                 timestamp="Today at 3:31PM"
                 badgeText="Milestone"
                 badgeColor="#5865f2"
@@ -175,7 +175,7 @@ const Page = async () => {
                             Track Any Event
                         </p>
                         <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                        From new user to successful payments, PingPanda notifies you for all critical events in your SaaS.
+                        From new user to successful payments, Dingdot notifies you for all critical events in your SaaS.
                                                 </p>
                           </div>
                           <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
@@ -272,7 +272,7 @@ const Page = async () => {
                     Easy Integration
                   </p>
                   <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                    Connect PingPanda with your existing workflows in minutes
+                    Connect DingDot with your existing workflows in minutes
                     and call our intuitive logging API from any language.
                   </p>
                 </div>
@@ -282,7 +282,7 @@ const Page = async () => {
                     <div className="flex bg-gray-800/40 ring-1 ring-white/5">
                       <div className="-mb-px flex text-sm/6 font-medium text-gray-400">
                         <div className="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 px-4 py-2 text-white">
-                          pingpanda.js
+                          dingdot.js
                         </div>
                       </div>
                     </div>
@@ -337,7 +337,7 @@ const Page = async () => {
               </div>
 
               <p className="text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-brand-950 text-center lg:text-left text-pretty">
-                PingPanda has been a game-changer for me. I've been using it for
+                DingDot has been a game-changer for me. I've been using it for
                 two months now and seeing sales pop up in real-time is super
                 satisfying.
               </p>
@@ -370,7 +370,7 @@ const Page = async () => {
               </div>
 
               <p className="text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-brand-950 text-center lg:text-left text-pretty">
-                PingPanda's been paying off for our SaaS. Nice to have simple
+                DingDot's been paying off for our SaaS. Nice to have simple
                 way to see how we're doing day-to-day. Definitely makes our
                 lives easier.
               </p>

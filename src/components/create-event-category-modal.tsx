@@ -64,6 +64,20 @@ export const CreateEventCategoryModal = ({ children, containerClassName, id }: C
         throw new Error(body.error || "Category limit reached.");
       }
 
+      await fetch('https://pingpanda-mbc8.onrender.com/api/events', {
+        method: 'POST',
+        headers: {
+          'Authorization': `${process.env.API_KEY}`
+        },
+        body: JSON.stringify({
+          category: 'category',
+          fields: {
+            field1: 'category creation', 
+            field2: 'testing' 
+          }
+        })
+      })
+
       return res;
     },
     onSuccess: () => {
