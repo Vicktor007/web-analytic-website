@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "strict": true,
+    "outDir": "public",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["DOM", "ES6"]
+  },
+  "include": ["tracking/tracking-script.ts"],
+  "exclude": ["node_modules", "src", ".next"]
+}

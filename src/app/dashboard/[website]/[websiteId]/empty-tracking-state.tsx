@@ -59,12 +59,12 @@ export const EmptyTrackingState = ({website}: PageProps) => {
 
   
 
-       const JS_codeString = `<script defer data-domain="${website}" src="${next_url}/tracking-script.ts"></script>`;
+       const JS_codeString = `<script defer data-domain="${website}" src="${next_url}/tracking-script.js"></script>`;
   const NextJS_codeString = `
 <Script
 defer
 data-domain="${website}"
-src="${next_url}/tracking-script.ts"/>
+src="${next_url}/tracking-script.js"/>
    `;
 
     return (

@@ -1,5 +1,17 @@
+export {};
+
+
+declare global {
+  interface Window {
+    NEXT_PUBLIC_APP_URL?: string;
+  }
+}
+
+
 (() => {
     "use strict";
+
+    
   
     const location = window.location;
     const document = window.document;
@@ -14,8 +26,20 @@
       params.get("source") ||
       document.referrer ||
       "unknown";
+
+      // ✅ Priority:
+  // 1. Build-time injected env var from Next.js
+  // 2. Runtime browser global variable
+  // 3. Current page origin
+  // 4. Default localhost
+  const endpointBase =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    window.NEXT_PUBLIC_APP_URL ||
+    window.location.origin ||
+    "http://localhost:3000";
   
-    const endpoint = "http://localhost:3000/api/track";
+    const endpoint = `${endpointBase}/api/track`;
+
   
     function generateSessionId(): string {
       return "session-" + Math.random().toString(36).substring(2, 9);
