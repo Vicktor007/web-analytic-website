@@ -31,8 +31,10 @@ export default function RootLayout({
       <Script
             defer
             data-domain="pingpanda-mbc8.onrender.com"
-            src="https://pingpanda-mbc8.onrender.com/tracking-script.js"
+            src="https://localhost:3000/tracking-script.js"
           />
+          <script defer data-domain="pingpanda-mbc8.onrender.com"
+                        src="https://localost:3000/tracking-script.js"></script>
         <main className="relative flex-1 flex flex-col">
         <Providers>{children}</Providers>
         </main>
